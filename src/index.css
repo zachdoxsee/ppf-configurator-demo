@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* Mirrors the Redline Labs portal tokens so the configurator drops in unchanged. */
+@theme {
+  --color-ink-950: #08080a;
+  --color-ink-900: #0b0b0c;
+  --color-ink-850: #101011;
+  --color-ink-800: #151516;
+  --color-ink-700: #1c1c1e;
+  --color-ink-600: #262629;
+
+  --color-chalk-50: #f5f5f6;
+  --color-chalk-100: #e6e6e8;
+  --color-chalk-300: #b4b4ba;
+  --color-chalk-500: #8b8b93;
+  --color-chalk-600: #6c6c74;
+
+  --color-redline-400: #ff3b3b;
+  --color-redline-500: #e11d26;
+  --color-redline-600: #b81219;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer base {
+  :root {
+    --hairline: rgba(255, 255, 255, 0.09);
+    --hairline-strong: rgba(255, 255, 255, 0.16);
+    --frame: rgba(255, 255, 255, 0.3);
+    --frame-hover: rgba(255, 255, 255, 0.45);
+    color-scheme: dark;
+  }
+  * {
+    border-color: var(--hairline);
+  }
+  body {
+    margin: 0;
+    background-color: var(--color-ink-900);
+    color: var(--color-chalk-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-redline-400);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+  }
+  .frame {
+    border: 1.5px solid var(--frame);
+    border-radius: 12px;
+    background: var(--color-ink-850);
+  }
+  .hairline-t {
+    border-top: 1px solid var(--hairline);
+  }
+  .hairline-b {
+    border-bottom: 1px solid var(--hairline);
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-chalk-500);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Panel overlays. One <path> per selectable panel, drawn over the vehicle.
+--------------------------------------------------------------------------- */
+.ppf-panel {
+  fill: transparent;
+  stroke: rgba(40, 46, 54, 0.28);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: all;
+  transition:
+    fill 120ms ease,
+    stroke 120ms ease;
+}
+.ppf-panel[data-interactive="true"] {
+  cursor: pointer;
+}
+.ppf-panel[data-inert="true"] {
+  pointer-events: none;
+}
+.ppf-panel.is-hovered {
+  fill: rgba(59, 130, 246, 0.3);
+  stroke: #2563eb;
+  stroke-width: 1.5;
+}
+.ppf-panel.is-selected {
+  fill: rgba(225, 29, 38, 0.58);
+  stroke: #b81219;
+  stroke-width: 1.5;
+}
+.ppf-panel.is-selected.is-hovered {
+  fill: rgba(225, 29, 38, 0.76);
+  stroke: #ff3b3b;
+}
+.ppf-panel:focus-visible {
+  outline: none;
+  stroke: #ff3b3b;
+  stroke-width: 2.5;
+}
+
+/* Thumbnails never take pointer input; the tile itself is the button. */
+.ppf-view-compact .ppf-panel {
+  pointer-events: none;
+  stroke-width: 0.75;
+}
+
+.ppf-stage {
+  background:
+    radial-gradient(ellipse at 50% 80%, rgba(0, 0, 0, 0.06), transparent 65%),
+    #f6f7f9;
+}
